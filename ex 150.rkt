@@ -15,24 +15,35 @@
 
 ; Txt file -> txt file
 ; convert the text file into another with the articles removed
-(define (remove-articles t) t)
+(define (remove-articles t) 
+  (write-file (... "no-articles-" t)  (... t ...)))
 
 ; txt file -> txt file
 ; remove the articles from a txt file
-(define (remove-articles*v1 t) t)
+(define (remove-articles*v1 t) 
+  (... (read-words/line t) ...)
 
 ; LLS -> LLS
 ; remove all the articles from a list-of-a-list-of-strings
 (check-expect (remove-articles*v2 (list (list "hello" "the" "world") 
                                         (list "a" "cat" "was" "here")))
               (list (list "hello" "world") (list "cat" "was" "here"))
-(define (remove-articles*v2 l) l)
+(define (remove-articles*v2 l) 
+  (cond
+    [(empty? l) ...]
+    [(cons? l) (cons (... (first l) ...) 
+               (remove-articles*v2 (rest l)))]))
+
 
 ; List-of-strings -> List-of-strings
 ; remove the articles from a list-of-strings
 (check-expect (remove-articles*v3 (list "hello" "the" "world"))
               ("hello" "world"))
-(define (remove-articles*v3 l) l)
+(define (remove-articles*v3 l) 
+    (cond
+    [(empty? l) ...]
+    [(cons? l) (cons (... (first l) ...) 
+               (remove-articles*v3 (rest l)))]))
  
 
  
