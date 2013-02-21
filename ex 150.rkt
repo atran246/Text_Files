@@ -23,10 +23,15 @@
 
 ; LLS -> LLS
 ; remove all the articles from a list-of-a-list-of-strings
+(check-expect (remove-articles*v2 (list (list "hello" "the" "world") 
+                                        (list "a" "cat" "was" "here")))
+              (list (list "hello" "world") (list "cat" "was" "here"))
 (define (remove-articles*v2 l) l)
 
 ; List-of-strings -> List-of-strings
 ; remove the articles from a list-of-strings
+(check-expect (remove-articles*v3 (list "hello" "the" "world"))
+              ("hello" "world"))
 (define (remove-articles*v3 l) l)
  
 
