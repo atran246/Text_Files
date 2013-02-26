@@ -15,9 +15,10 @@
 
 ; Txt file -> txt file
 ; convert the text file into another with the articles removed
+(check-expect (remove-articles "ttt.txt") "no-articles-ttt.txt")
 (define (remove-articles t) 
-  (write-file (string-append "no-articles-" t)  
-              (remove-articles*v1 t)))
+  (write-file (string-append "no-articles-"  t)  
+              (collapse (remove-articles*v1 t))))
 
 ; txt file -> txt file
 ; remove the articles from a txt file
@@ -43,16 +44,28 @@
 (define (remove-articles*v3 l) 
     (cond
     [(empty? l) empty]
-    [(cons? l) (cons 
-                (cond 
-                  [(string=? "a" (first l)) (remove (first l) l)] 
-                  [(string=? "an" (first l)) (remove (first l) l)] 
-                  [(string=? "the" (first l)) (remove (first l) l)]
-                  [else (first l)]) 
-               (remove-articles*v3 (rest l)))]))
+    [(cons? l) (cond 
+                  [(string=? "a" (first l)) (remove-articles*v3 (rest l))] 
+                  [(string=? "an" (first l)) (remove-articles*v3 (rest l))] 
+                  [(string=? "the" (first l)) (remove-articles*v3 (rest l))]
+                  [else (cons (first l)
+               (remove-articles*v3 (rest l)))])]))
  
 
- 
+;List of strings-> string
+; to take a list of strings and produce one string
+(check-expect (collapse  (list (list "hello" "the" "world") 
+                                        (list "a" "cat" "was" "here")))
+              "hello the world /n a cat was here /n ")
+(define (collapse lls)
+   (cond
+    [(empty? lls) ""]
+    [(cons? lls)(string-append (collapse* (first lls)) (collapse (rest lls)))]))
+
+(define (collapse* l)
+ (cond
+   [(empty? l) "/n "]
+    [(cons? l) (string-append (first l) (string-append " " (collapse* (rest l))))]))
 
 
 
